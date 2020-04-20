@@ -7,6 +7,7 @@ import Login from '@/views/login/index'
 Vue.use(VueRouter)
 
 const routes = [
+  { path: '/', redirect: '/login' },
   { path: '/login', name: 'login', component: Login }
 ]
 

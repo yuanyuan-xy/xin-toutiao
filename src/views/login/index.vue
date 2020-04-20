@@ -14,7 +14,7 @@
          <el-checkbox v-model="checked">我已阅读并同意服务手册</el-checkbox>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :loading="loginLoad" @click="login" class="loginBtn">立即创建</el-button>
+         <el-button type="primary" :loading="loginLoad" @click="login" class="loginBtn">立即登录</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -25,34 +25,50 @@
 import reuqest from '@/utils/request'
 
 export default {
+  name: 'login',
   data () {
     return {
       user: {
         mobile: '13911111111',
         code: '246810'
       },
+
+      // 单选按钮是否选中
       checked: false,
+
+      // loading的状态为关闭
       loginLoad: false
     }
   },
   methods: {
     login () {
+      // 点击就打开loading
       this.loginLoad = true
+
+      // 定义接口所需要的参数
       const user = this.user
+
+      // 发送请求
       reuqest({
         method: 'POST',
         url: '/mp/v1_0/authorizations',
         data: user
       }).then(res => {
-        console.log(11)
+        // 提示登陆成功
         this.$message({
           message: '登陆成功',
           type: 'success'
         })
+
+        // 关闭loading
         this.loginLoad = false
       }).catch(err => {
         console.log('报错了', err)
+
+        // 提示登录失败
         this.$message.error('登陆失败,账号或密码错误')
+
+        // 关闭loading
         this.loginLoad = false
       })
     }
