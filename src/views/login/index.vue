@@ -1,17 +1,17 @@
 <template>
   <div class="login-container">
-    <el-form ref="form" :model="user" class="loginForm">
+    <el-form ref="form" :model="user" :rules="formRule" class="loginForm">
       <el-form-item>
         <div class="logo"></div>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="mobile">
         <el-input v-model="user.mobile" placeholder="请输入电话号码"></el-input>
       </el-form-item>
-      <el-form-item>
+      <el-form-item prop="code">
         <el-input v-model="user.code" placeholder="请输入验证码"></el-input>
       </el-form-item>
-      <el-form-item>
-         <el-checkbox v-model="checked">我已阅读并同意服务手册</el-checkbox>
+      <el-form-item  prop="agree">
+         <el-checkbox v-model="user.agree">我已阅读并同意服务手册</el-checkbox>
       </el-form-item>
       <el-form-item>
          <el-button type="primary" :loading="loginLoad" @click="login" class="loginBtn">立即登录</el-button>
@@ -21,39 +21,62 @@
 </template>
 
 <script>
-// 引入axios
-import reuqest from '@/utils/request'
-
+// 引入登陆接口
+import { userLogin } from '@/api/user'
 export default {
   name: 'login',
   data () {
     return {
       user: {
         mobile: '13911111111',
-        code: '246810'
+        code: '246810',
+        agree: true
       },
 
-      // 单选按钮是否选中
-      checked: false,
-
       // loading的状态为关闭
-      loginLoad: false
+      loginLoad: false,
+
+      // 表单验证规则
+      formRule: {
+        mobile: [
+          { required: true, message: '请输入电话号', trigger: 'blur' },
+          { pattern: /^1[3|5|6|7|8|9]\d{9}$/, message: '电话格式不正确', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入验证码', trigger: 'blur' },
+          { pattern: /^\d{6}$/, message: '验证码格式不正确', trigger: 'blur' }
+        ],
+        agree: [
+          {
+            validator: (rule, value, callback) => {
+              if (value) {
+                callback()
+              } else {
+                callback(new Error('请同意服务手册'))
+              }
+            },
+            trigger: 'change'
+          }
+        ]
+      }
     }
   },
   methods: {
     login () {
+      // 验证表单正确与否
+      this.$refs.form.validate(valid => {
+        if (!valid) {
+          return
+        }
+        this.onLogin()
+      })
+    },
+    onLogin () {
       // 点击就打开loading
       this.loginLoad = true
-
-      // 定义接口所需要的参数
-      const user = this.user
-
       // 发送请求
-      reuqest({
-        method: 'POST',
-        url: '/mp/v1_0/authorizations',
-        data: user
-      }).then(res => {
+      userLogin(this.user).then(res => {
+        // TODO:这里是登录成功的处理程序
         // 提示登陆成功
         this.$message({
           message: '登陆成功',
@@ -62,7 +85,11 @@ export default {
 
         // 关闭loading
         this.loginLoad = false
+
+        // 如果登陆成功就跳转到主页
+        this.$router.push('/')
       }).catch(err => {
+        // TODO:这里是失败的处理程序
         console.log('报错了', err)
 
         // 提示登录失败
