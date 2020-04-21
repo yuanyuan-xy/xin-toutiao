@@ -77,6 +77,7 @@ export default {
       // 发送请求
       userLogin(this.user).then(res => {
         // TODO:这里是登录成功的处理程序
+        console.log(res)
         // 提示登陆成功
         this.$message({
           message: '登陆成功',
