@@ -1,7 +1,7 @@
 <template>
   <div class="layout-head">
       <div>
-          <i class="el-icon-s-fold icon"></i>
+          <span class="el-icon-s-fold"></span>
           <span>欢迎来到阳光养猪场</span>
       </div>
       <el-dropdown>
