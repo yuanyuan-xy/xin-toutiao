@@ -10,11 +10,12 @@ export const userLogin = data => {
 
 // 获取用户信息
 export const getUserProfile = () => {
+  // const user = JSON.parse(window.localStorage.getItem('user'))
   return request({
     method: 'GET',
-    url: '/mp/v1_0/user/profile',
-    headers: {
-      Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MTg5MjU4OTksInVzZXJfaWQiOjEsInJlZnJlc2giOmZhbHNlLCJ2ZXJpZmllZCI6dHJ1ZX0.WGQB_71wVyif87JVJAVPJPsZy9ydyyGMJAcBwA8nNZE'
-    }
+    url: '/mp/v1_0/user/profile'
+    // headers: {
+    //   Authorization: `Bearer ${user.token}`
+    // }
   })
 }

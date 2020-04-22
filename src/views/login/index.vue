@@ -87,6 +87,9 @@ export default {
         // 关闭loading
         this.loginLoad = false
 
+        // 将token保存到本地存储
+        window.localStorage.setItem('user', JSON.stringify(res.data.data))
+
         // 如果登陆成功就跳转到主页
         this.$router.push('/')
       }).catch(err => {
