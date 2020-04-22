@@ -1,13 +1,16 @@
 <template>
   <el-container class="container">
-  <el-aside width="200px" class="aside">
-      <layout-aside class="layout-aside"></layout-aside>
+  <el-aside width="auto" class="aside">
+      <layout-aside class="layout-aside" :isCollapse="isCollapse"></layout-aside>
   </el-aside>
   <el-container>
     <el-header class="header">
         <div class="layout-head">
       <div>
-          <span class="el-icon-s-fold"></span>
+          <span
+          :class="{'el-icon-s-fold': isCollapse, 'el-icon-s-unfold': !isCollapse}"
+          @click="isCollapse = !isCollapse"
+          ></span>
           <span>欢迎来到阳光养猪场</span>
       </div>
       <el-dropdown>
@@ -39,7 +42,8 @@ import LayoutAside from '@/views/layout/components/aside'
 export default {
   data () {
     return {
-      user: {}
+      user: {},
+      isCollapse: true
     }
   },
   created () {
