@@ -21,3 +21,14 @@ export const delArticle = delId => {
     url: `/mp/v1_0/articles/${delId}`
   })
 }
+// 新增文章
+export const addArticle = (data, draft) => {
+  return request({
+    method: 'POST',
+    url: '/mp/v1_0/articles',
+    params: {
+      draft
+    },
+    data
+  })
+}
