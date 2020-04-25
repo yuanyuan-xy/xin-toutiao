@@ -32,3 +32,21 @@ export const addArticle = (data, draft) => {
     data
   })
 }
+// 获取文章详细资料
+export const getArticle = articleId => {
+  return request({
+    method: 'GET',
+    url: `/mp/v1_0/articles/${articleId}`
+  })
+}
+// 编辑文章
+export const editArticle = (articleId, data, draft) => {
+  return request({
+    method: 'PUT',
+    url: `/mp/v1_0/articles/${articleId}`,
+    params: {
+      draft
+    },
+    data
+  })
+}

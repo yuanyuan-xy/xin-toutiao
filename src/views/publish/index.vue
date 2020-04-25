@@ -4,7 +4,7 @@
         <div slot="header" class="clearfix">
             <el-breadcrumb separator-class="el-icon-arrow-right">
                 <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
-                <el-breadcrumb-item>发布文章</el-breadcrumb-item>
+                <el-breadcrumb-item>{{$route.query.id ? '修改文章' : '发布文章'}}</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <el-form ref="form" :model="article" label-width="40px">
@@ -33,7 +33,7 @@
             </el-select>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="onPublish(false)">发布</el-button>
+            <el-button type="primary" @click="onPublish(false)">{{$route.query.id ? '修改' : '发布'}}</el-button>
             <el-button @click="onPublish(true)">存为草稿</el-button>
           </el-form-item>
         </el-form>
@@ -43,7 +43,7 @@
 
 <script>
 // 引入接口
-import { getArticleChannels, addArticle } from '@/api/article.js'
+import { getArticleChannels, addArticle, getArticle, editArticle } from '@/api/article.js'
 export default {
   name: 'PublishIndex',
   data () {
@@ -62,22 +62,43 @@ export default {
   },
   created () {
     this.getChannels()
+    if (this.$route.query.id) {
+      this.getArticleInfo()
+    }
   },
   methods: {
     onPublish (draft) {
-      addArticle(this.article, draft).then(res => {
-        if (draft) {
-          this.$message('存为草稿成功')
-        } else {
-          this.$message('发布内容成功')
-        }
-        this.$router.push('/article')
-      })
+      if (this.$route.query.id) {
+        editArticle(this.$route.query.id, this.article, draft).then(res => {
+          // if (draft) {
+          //   this.$message('存为草稿成功')
+          // } else {
+          //   this.$message('发布内容成功')
+          // }
+          draft ? this.$message('存为草稿成功') : this.$message('修改成功')
+          this.$router.push('/article')
+        })
+      } else {
+        addArticle(this.article, draft).then(res => {
+          // if (draft) {
+          //   this.$message('存为草稿成功')
+          // } else {
+          //   this.$message('发布内容成功')
+          // }
+          draft ? this.$message('存为草稿成功') : this.$message('发布内容成功')
+          this.$router.push('/article')
+        })
+      }
     },
     getChannels () {
       getArticleChannels().then(res => {
         console.log(res)
         this.channels = res.data.data.channels
+      })
+    },
+    getArticleInfo () {
+      getArticle(this.$route.query.id).then(res => {
+        this.article = res.data.data
       })
     }
   }
