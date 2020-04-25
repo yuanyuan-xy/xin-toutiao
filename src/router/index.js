@@ -16,6 +16,8 @@ import Home from '@/views/home/index'
 // 导入文章列表页面
 import Article from '@/views/article/index'
 
+// 导入发表文章页面
+import Publish from '@/views/publish/index'
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,7 +27,8 @@ const routes = [
     component: LayoutIndex,
     children: [
       { path: '', name: 'home', component: Home },
-      { path: '/article', name: 'article', component: Article }
+      { path: '/article', name: 'article', component: Article },
+      { path: '/publish', name: 'publish', component: Publish }
     ]
   }
 ]

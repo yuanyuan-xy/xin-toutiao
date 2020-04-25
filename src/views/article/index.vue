@@ -141,6 +141,7 @@
 </template>
 
 <script>
+// 导入各个接口
 import { getArticles, getArticleChannels, delArticle } from '@/api/article'
 export default {
   name: 'ArticleIndex',
