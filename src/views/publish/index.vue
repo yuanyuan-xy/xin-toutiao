@@ -75,7 +75,11 @@ export default {
           // } else {
           //   this.$message('发布内容成功')
           // }
-          draft ? this.$message('存为草稿成功') : this.$message('修改成功')
+          // draft ? this.$message('存为草稿成功') : this.$message('修改成功')
+          this.$message({
+            message: `${draft ? '存为草稿' : '修改'}成功`,
+            type: 'success'
+          })
           this.$router.push('/article')
         })
       } else {
@@ -85,7 +89,11 @@ export default {
           // } else {
           //   this.$message('发布内容成功')
           // }
-          draft ? this.$message('存为草稿成功') : this.$message('发布内容成功')
+          // draft ? this.$message('存为草稿成功') : this.$message('发布内容成功')
+          this.$message({
+            message: draft ? '存为草稿成功' : '发布内容成功',
+            type: 'success'
+          })
           this.$router.push('/article')
         })
       }
