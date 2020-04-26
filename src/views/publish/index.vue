@@ -52,8 +52,13 @@
 
 <script>
 // 引入接口
-import { getArticleChannels, addArticle, getArticle, editArticle } from '@/api/article.js'
-
+import {
+  getArticleChannels,
+  addArticle,
+  getArticle,
+  editArticle
+} from '@/api/article.js'
+import { uploadImage } from '@/api/image.js'
 // 引入富文本编辑器
 import {
   ElementTiptap,
@@ -104,7 +109,20 @@ export default {
         new ListItem(),
         new BulletList(),
         new OrderedList(),
-        new Image()
+        new Image({
+          // 默认会把图片生成 base64 字符串和内容存储在一起，如果需要自定义图片上传
+          uploadRequest (file) {
+            // 如果接口要求 Content-Type 是 multipart/form-data，则请求体必须使用 FormData
+            const fd = new FormData()
+            fd.append('image', file)
+            // 第1个 return 是返回 Promise 对象
+            // 为什么？因为 axios 本身就是返回 Promise 对象
+            return uploadImage(fd).then(res => {
+              // 这个 return 是返回最后的结果
+              return res.data.data.url
+            })
+          }
+        })
       ],
       // 验证规则
       publishRules: {
