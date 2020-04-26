@@ -22,3 +22,13 @@ export const delImages = imageId => {
     url: `/mp/v1_0/user/images/${imageId}`
   })
 }
+// 收藏素材
+export const starImages = (imageId, collect) => {
+  return request({
+    method: 'PUT',
+    url: `/mp/v1_0/user/images/${imageId}`,
+    data: {
+      collect
+    }
+  })
+}

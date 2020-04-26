@@ -44,7 +44,11 @@
             >
             </el-image>
             <div class="star-handle">
-              <i class="iconfont iconstar"></i>
+              <i
+              class="iconfont iconstar"
+              :class="{isStar:item.is_collected}"
+              @click="onStarImage(item.id,item.is_collected)"
+              ></i>
               <i class="iconfont icondel" @click="del(item.id)"></i>
             </div>
           </div>
@@ -84,21 +88,21 @@
 
 <script>
 // 导入获取图片素材的接口
-import { getImages, delImages } from '@/api/image'
+import { getImages, delImages, starImages } from '@/api/image'
 export default {
   name: 'imageIndex',
   data () {
     const user = JSON.parse(window.localStorage.getItem('user'))
     return {
-      collect: false,
-      images: [],
+      collect: false, // 全部or收藏
+      images: [], // 图片列表
       dialogVisible: false, // 弹出框
-      uploadheaders: {
+      uploadheaders: { // 响应头
         Authorization: `Bearer ${user.token}`
       },
       total: 0, // 总页数
       page: 1, // 当前页
-      pageSize: 10
+      pageSize: 10 // 每页的数量
     }
   },
   created () {
@@ -155,9 +159,20 @@ export default {
         })
       })
     },
+    // 改变页码
     currentChange (page) {
       this.page = page
       this.loadImages(false)
+    },
+    // 收藏与取消收藏资源
+    onStarImage (id, isStar) {
+      starImages(
+        id,
+        !isStar
+      ).then(res => {
+        console.log(res)
+        this.loadImages(false)
+      })
     }
   }
 }
@@ -195,5 +210,9 @@ export default {
   align-items: center;
   overflow: hidden;
   transition: all .5s;
+}
+// 是否是收藏的样式
+.isStar {
+  color:red
 }
 </style>
