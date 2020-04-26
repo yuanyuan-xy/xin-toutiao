@@ -12,7 +12,7 @@
             <el-input v-model="article.title"></el-input>
           </el-form-item>
           <el-form-item label="内容">
-            <el-input type="textarea" v-model="article.content"></el-input>
+            <el-tiptap :extensions="extensions" v-model="article.content"></el-tiptap>
           </el-form-item>
            <el-form-item label="封面">
             <el-radio-group v-model="article.cover.type">
@@ -44,12 +44,36 @@
 <script>
 // 引入接口
 import { getArticleChannels, addArticle, getArticle, editArticle } from '@/api/article.js'
+
+// 引入富文本编辑器
+import {
+  ElementTiptap,
+  // 需要的 extensions
+  Doc,
+  Text,
+  Paragraph,
+  Heading,
+  Bold,
+  Underline,
+  Italic,
+  Strike,
+  ListItem,
+  BulletList,
+  OrderedList,
+  Image
+} from 'element-tiptap'
+
+// 引入富文本编辑器的样式
+import 'element-tiptap/lib/index.css'
 export default {
   name: 'PublishIndex',
+  components: {
+    'el-tiptap': ElementTiptap
+  },
   data () {
     return {
       channels: [], // 文章频道列表
-      article: {
+      article: { // 提交的数据
         title: '',
         content: '',
         cover: {
@@ -57,7 +81,22 @@ export default {
           images: []
         },
         channel_id: ''
-      }
+      },
+      // 富文本编辑器的数据
+      extensions: [
+        new Doc(),
+        new Text(),
+        new Paragraph(),
+        new Heading({ level: 5 }),
+        new Bold({ bubble: true }), // 在气泡菜单中渲染菜单按钮
+        new Underline(),
+        new Italic(),
+        new Strike(),
+        new ListItem(),
+        new BulletList(),
+        new OrderedList(),
+        new Image()
+      ]
     }
   },
   created () {
