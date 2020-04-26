@@ -18,6 +18,9 @@ import Article from '@/views/article/index'
 
 // 导入发表文章页面
 import Publish from '@/views/publish/index'
+
+// 导入素材管理页面
+import Image from '@/views/image/index'
 Vue.use(VueRouter)
 
 const routes = [
@@ -28,7 +31,8 @@ const routes = [
     children: [
       { path: '', name: 'home', component: Home },
       { path: '/article', name: 'article', component: Article },
-      { path: '/publish', name: 'publish', component: Publish }
+      { path: '/publish', name: 'publish', component: Publish },
+      { path: '/image', name: 'image', component: Image }
     ]
   }
 ]
