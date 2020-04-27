@@ -122,6 +122,7 @@ export default {
     },
     onCollectChange (value) {
       console.log(value)
+      this.page = 1
       this.loadImages(value)
     },
     // 弹出框
