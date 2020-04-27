@@ -8,6 +8,17 @@ import ElementUI from 'element-ui'
 // 导入element的css样式
 import 'element-ui/lib/theme-chalk/index.css'
 
+// 引入富文本插件
+import { ElementTiptapPlugin } from 'element-tiptap'
+
+// 引入element-tiptap样式
+import 'element-tiptap/lib/index.css'
+
+// 配置插件
+Vue.use(ElementTiptapPlugin, {
+  lang: 'zh',
+  spellcheck: true
+})
 // 注册全局element
 Vue.use(ElementUI)
 

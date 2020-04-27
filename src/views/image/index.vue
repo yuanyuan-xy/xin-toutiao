@@ -63,10 +63,10 @@
                 effect="dark"
                 content="删除此素材"
                 placement="top-start">
-                    <i
-                    class="iconfont icondel"
-                    @click="del(item.id)"
-                    ></i>
+                  <i
+                  class="iconfont icondel"
+                  @click="del(item.id)"
+                  ></i>
                 </el-tooltip>
             </div>
           </div>
