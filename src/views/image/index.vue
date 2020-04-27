@@ -171,8 +171,14 @@ export default {
         id,
         !isStar
       ).then(res => {
-        console.log(res)
-        this.loadImages(false)
+        // if (this.collect) {
+        //   this.collect = true
+        //   this.loadImages(true)
+        // } else {
+        //   this.collect = false
+        //   this.loadImages(false)
+        // }
+        this.loadImages(this.collect)
       })
     }
   }
