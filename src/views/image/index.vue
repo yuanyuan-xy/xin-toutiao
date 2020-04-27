@@ -44,22 +44,41 @@
             >
             </el-image>
             <div class="star-handle">
-              <i
-              class="iconfont iconstar"
-              :class="{isStar:item.is_collected}"
-              @click="onStarImage(item.id,item.is_collected)"
-              ></i>
-              <i class="iconfont icondel" @click="del(item.id)"></i>
+              <!-- 收藏按钮 -->
+              <el-tooltip
+              class="item"
+              effect="dark"
+              :content="item.is_collected ? '取消收藏' : '添加收藏'"
+              placement="top-start">
+                <i
+                class="iconfont iconstar"
+                :class="{isStar:item.is_collected}"
+                @click="onStarImage(item.id,item.is_collected)"
+                ></i>
+              </el-tooltip>
+              <!-- 删除按钮 -->
+              <el-tooltip
+              class="item"
+              effect="dark"
+              content="删除此素材"
+              placement="top-start">
+                  <i
+                  class="iconfont icondel"
+                  @click="del(item.id)"
+                  title="删除此素材"
+                  ></i>
+            </el-tooltip>
             </div>
           </div>
         </el-col>
       </el-row>
       <!-- 弹出层 -->
       <el-dialog
-        title="提示"
+        title="上传素材"
         :visible.sync="dialogVisible"
         width="30%"
         :before-close="handleClose"
+        :append-to-body="true"
         >
         <el-upload
           class="upload-demo"
@@ -67,6 +86,7 @@
           action="http://ttapi.research.itcast.cn/mp/v1_0/user/images"
           name="image"
           :headers="uploadheaders"
+          :show-file-list="true"
           :on-success="onUploadSuccess"
           multiple>
           <i class="el-icon-upload"></i>
@@ -102,7 +122,7 @@ export default {
       },
       total: 0, // 总页数
       page: 1, // 当前页
-      pageSize: 10 // 每页的数量
+      pageSize: 12 // 每页的数量
     }
   },
   created () {
@@ -127,11 +147,7 @@ export default {
     },
     // 弹出框
     handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(() => {
-          done()
-        })
-        .catch(() => {})
+      done()
     },
     onUploadSuccess () {
       // 关闭对话框
@@ -193,7 +209,7 @@ export default {
 }
 // 整个盒子得样式
 .star-col {
-  width: 100px;
+  width: 200px;
   position: relative;
   margin-bottom: 10px;
 }
@@ -202,14 +218,13 @@ export default {
 }
 // 图片的样式
 .star-image {
-  width: 100px;
-  height: 100px;
+  height: 200px;
 }
 // 装图标的盒子得样式
 .star-handle {
   position: absolute;
   bottom: 2px;
-  width: 100px;
+  width: 100%;
   height: 0px;
   background-color: rgba(255,255,255,.5);
   display: flex;
