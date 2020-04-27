@@ -99,6 +99,9 @@ export default {
     background-color: #fff;
     border-bottom: 1px solid #ccc;
 }
+.main {
+  position: relative;
+}
 .layout-aside {
     height: 100%;
 }

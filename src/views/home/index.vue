@@ -1,5 +1,5 @@
 <template>
-  <div>首页</div>
+  <div class="home">首页</div>
 </template>
 
 <script>
@@ -9,10 +9,16 @@ export default {
 </script>
 
 <style scoped lang="less">
-body {
-  background: url('./welcome.jpg') no-repeat;
-  background-size: cover;
-}
+.home{
+    background: url(./MySelf.jpg) no-repeat;
+    background-size: cover;
+    background-position: 0 -320px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
 div {
   color: red;
 }
