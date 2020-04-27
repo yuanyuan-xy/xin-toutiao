@@ -26,7 +26,8 @@
         @click="dialogVisible = true"
         >上传素材</el-button>
       </div>
-      <el-row :gutter="10">
+      <el-row :gutter="10"
+        v-loading="isLoading">
         <el-col
         :xs="12"
         :sm="6"
@@ -58,16 +59,15 @@
               </el-tooltip>
               <!-- 删除按钮 -->
               <el-tooltip
-              class="item"
-              effect="dark"
-              content="删除此素材"
-              placement="top-start">
-                  <i
-                  class="iconfont icondel"
-                  @click="del(item.id)"
-                  title="删除此素材"
-                  ></i>
-            </el-tooltip>
+                class="item"
+                effect="dark"
+                content="删除此素材"
+                placement="top-start">
+                    <i
+                    class="iconfont icondel"
+                    @click="del(item.id)"
+                    ></i>
+                </el-tooltip>
             </div>
           </div>
         </el-col>
@@ -122,7 +122,8 @@ export default {
       },
       total: 0, // 总页数
       page: 1, // 当前页
-      pageSize: 12 // 每页的数量
+      pageSize: 12, // 每页的数量
+      isLoading: true // 是否加载
     }
   },
   created () {
@@ -130,18 +131,18 @@ export default {
   },
   methods: {
     loadImages (collect = false) {
+      this.isLoading = true
       getImages({
         collect,
         page: this.page,
         per_page: this.pageSize
       }).then(res => {
-        console.log(res)
+        this.isLoading = false
         this.total = res.data.data.total_count
         this.images = res.data.data.results
       })
     },
     onCollectChange (value) {
-      console.log(value)
       this.page = 1
       this.loadImages(value)
     },
