@@ -25,6 +25,9 @@ import Image from '@/views/image/index'
 // 导入评论管理页面
 import Comment from '@/views/comment/index'
 
+// 导入个人设置页面
+import Settings from '@/views/settings/index'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -37,7 +40,8 @@ const routes = [
       { path: '/article', name: 'article', component: Article },
       { path: '/publish', name: 'publish', component: Publish },
       { path: '/image', name: 'image', component: Image },
-      { path: '/comment', name: 'comment', component: Comment }
+      { path: '/comment', name: 'comment', component: Comment },
+      { path: '/settings', name: 'settings', component: Settings }
     ]
   }
 ]
