@@ -51,11 +51,19 @@
               effect="dark"
               :content="item.is_collected ? '取消收藏' : '添加收藏'"
               placement="top-start">
-                <i
+              <el-button
+              :type="item.is_collected? 'success':'warning'"
+              :icon="item.is_collected? 'el-icon-check':'el-icon-star-off'"
+              size="mini"
+              circle
+              :loading="item.loading"
+              @click="onStarImage(item)"
+              ></el-button>
+                <!-- <i
                 class="iconfont iconstar"
                 :class="{isStar:item.is_collected}"
                 @click="onStarImage(item.id,item.is_collected)"
-                ></i>
+                ></i> -->
               </el-tooltip>
               <!-- 删除按钮 -->
               <el-tooltip
@@ -63,10 +71,18 @@
                 effect="dark"
                 content="删除此素材"
                 placement="top-start">
-                  <i
+                <el-button
+                type="danger"
+                icon="el-icon-delete"
+                circle
+                size="mini"
+                :loading="item.loading"
+                @click="del(item)"
+                ></el-button>
+                  <!-- <i
                   class="iconfont icondel"
                   @click="del(item.id)"
-                  ></i>
+                  ></i> -->
                 </el-tooltip>
             </div>
           </div>
@@ -99,6 +115,7 @@
         layout="prev, pager, next"
         :total="total"
         :page-size.sync="pageSize"
+        :current-page="page"
         @current-change="currentChange"
       >
       </el-pagination>
@@ -137,9 +154,13 @@ export default {
         page: this.page,
         per_page: this.pageSize
       }).then(res => {
+        const results = res.data.data.results
+        results.forEach(item => {
+          item.loading = false
+        })
         this.isLoading = false
         this.total = res.data.data.total_count
-        this.images = res.data.data.results
+        this.images = results
       })
     },
     onCollectChange (value) {
@@ -157,13 +178,15 @@ export default {
       this.loadImages(false)
     },
     // 删除
-    del (id) {
+    del (item) {
       this.$confirm('确定删除吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        delImages(id).then(res => {
+        item.loading = true
+        delImages(item.id).then(res => {
+          item.loading = true
           this.loadImages(false)
           this.$message({
             type: 'success',
@@ -180,14 +203,16 @@ export default {
     // 改变页码
     currentChange (page) {
       this.page = page
-      this.loadImages(false)
+      this.loadImages(this.collect)
     },
     // 收藏与取消收藏资源
-    onStarImage (id, isStar) {
+    onStarImage (item) {
+      item.loading = true
       starImages(
-        id,
-        !isStar
+        item.id,
+        !item.is_collected
       ).then(res => {
+        item.loading = false
         // if (this.collect) {
         //   this.collect = true
         //   this.loadImages(true)
@@ -215,7 +240,7 @@ export default {
   margin-bottom: 10px;
 }
 .star-col:hover .star-handle {
-  height: 30px;
+  height: 40px;
 }
 // 图片的样式
 .star-image {
