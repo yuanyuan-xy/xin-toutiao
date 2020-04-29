@@ -36,11 +36,7 @@ export default {
   name: 'fansListIndex',
   data () {
     return {
-      fans: {
-        id: null,
-        name: '',
-        photo: ''
-      },
+      fans: [],
       currentPage: 1, // 当前页
       pageSize: 20, // 每页几条
       totalCount: 0 // 总数
