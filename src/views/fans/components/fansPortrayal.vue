@@ -34,7 +34,7 @@ export default {
 
 <style scoped lang="less">
 .main {
-  width: 800px;
-  height: 600px;
+  width: 600px;
+  height: 400px;
 }
 </style>
