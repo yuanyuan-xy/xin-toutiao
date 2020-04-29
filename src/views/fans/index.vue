@@ -9,10 +9,12 @@
       </div>
       <!-- 主要内容 -->
       <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-        <el-tab-pane label="粉丝列表" name="first">
+        <el-tab-pane label="粉丝列表" name="fansList">
           <fans-list></fans-list>
         </el-tab-pane>
-        <el-tab-pane label="粉丝画像" name="second">粉丝画像</el-tab-pane>
+        <el-tab-pane label="粉丝画像" name="fansPortrayal">
+          <fans-portrayal></fans-portrayal>
+        </el-tab-pane>
       </el-tabs>
     </el-card>
   </div>
@@ -20,10 +22,25 @@
 
 <script>
 // 导入粉丝列表组件
-import fansList from './comments/fansList'
+import FansList from '@/views/fans/components/fansList'
+import FansPortrayal from '@/views/fans/components/fansPortrayal'
+
 export default {
   name: 'fansIndex',
-  comments: { fansList }
+  data () {
+    return {
+      activeName: 'fansList'
+    }
+  },
+  methods: {
+    handleClick (tab, event) {
+      console.log(tab, event)
+    }
+  },
+  components: {
+    FansList,
+    FansPortrayal
+  }
 }
 </script>
 
