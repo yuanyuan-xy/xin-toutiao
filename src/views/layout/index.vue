@@ -38,6 +38,8 @@
 </template>
 
 <script>
+// 导入全局事件通信
+import globalBus from '@/utils/global-bus'
 // 导入获取用户信息的接口
 import { getUserProfile } from '@/api/user'
 // 导入侧边栏的组件
@@ -51,6 +53,11 @@ export default {
   },
   created () {
     this.getProfile()
+    // 全局事件通信,注册事件接收传过来的值
+    globalBus.$on('user-info', (data) => {
+      this.user.name = data.name
+      this.user.photo = data.photo
+    })
   },
   methods: {
     getProfile () {

@@ -28,6 +28,9 @@ import Comment from '@/views/comment/index'
 // 导入个人设置页面
 import Settings from '@/views/settings/index'
 
+// 导入粉丝页面
+import Fans from '@/views/fans/index'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,7 +44,8 @@ const routes = [
       { path: '/publish', name: 'publish', component: Publish },
       { path: '/image', name: 'image', component: Image },
       { path: '/comment', name: 'comment', component: Comment },
-      { path: '/settings', name: 'settings', component: Settings }
+      { path: '/settings', name: 'settings', component: Settings },
+      { path: '/fans', name: 'fans', component: Fans }
     ]
   }
 ]
