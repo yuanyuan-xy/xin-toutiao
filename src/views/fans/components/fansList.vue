@@ -1,5 +1,10 @@
 <template>
   <div class="fansList">
+    <div class="mask" :class="{isShow:maskShow}">
+      <div class="loading">
+        <span>loading...</span>
+      </div>
+    </div>
     <el-row :gutter="10">
       <el-col
       :xs="12"
@@ -39,7 +44,8 @@ export default {
       fans: [],
       currentPage: 1, // 当前页
       pageSize: 20, // 每页几条
-      totalCount: 0 // 总数
+      totalCount: 0, // 总数
+      maskShow: false // loading
     }
   },
   created () {
@@ -47,10 +53,12 @@ export default {
   },
   methods: {
     onFans (page) {
+      this.maskShow = true
       getFans({
         page,
         per_page: this.pageSize
       }).then(res => {
+        this.maskShow = false
         this.fans = res.data.data.results
         this.totalCount = res.data.data.total_count
       })
@@ -119,5 +127,68 @@ export default {
 }
 .theFan:hover .fansName {
   right: 0px;
+}
+
+.mask {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  background-color: rgba(69, 170, 242, .5);
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: not-allowed;
+}
+.loading {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border-top: 10px solid #1289A7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: a1 1s infinite linear;
+}
+.loading span {
+  font-size: 25px;
+  color: #fd9644;
+  animation: a2 1s infinite linear;
+}
+.loading::after,
+.loading::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+}
+.loading::after {
+  border-top: 10px solid #F79F1F;
+  transform: rotate(120deg);
+}
+.loading::before {
+  border-top: 10px solid #833471;
+  transform: rotate(240deg);
+}
+@keyframes a1 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes a2 {
+  100% {
+    transform: rotate(-360deg);
+  }
+}
+// loading层是否展示
+.isShow {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 </style>

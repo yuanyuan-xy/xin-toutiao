@@ -20,7 +20,7 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>设置</el-dropdown-item>
+            <el-dropdown-item @click.native="onSettings">设置</el-dropdown-item>
             <!-- 组件里的事件是不识别的,会渲染成子组件向父组件传值,得加.native修饰符 -->
             <el-dropdown-item
             @click.native="onLogout"
@@ -83,6 +83,9 @@ export default {
           message: '已取消退出'
         })
       })
+    },
+    onSettings () {
+      this.$router.push('/settings')
     }
   },
   components: {
