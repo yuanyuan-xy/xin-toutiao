@@ -134,7 +134,6 @@ export default {
   width: 0;
   height: 0;
   overflow: hidden;
-  background-color: rgba(69, 170, 242, .5);
   z-index: 999;
   display: flex;
   justify-content: center;
