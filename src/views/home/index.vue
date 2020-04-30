@@ -1,5 +1,7 @@
 <template>
-  <div class="home">首页</div>
+  <div class="home">
+    <img src="./word.png" alt="">
+  </div>
 </template>
 
 <script>
@@ -19,7 +21,9 @@ export default {
     bottom: 0;
     right: 0;
   }
-div {
-  color: red;
+img {
+  width: 800px;
+  position: absolute;
+  left: -330px;
 }
 </style>
