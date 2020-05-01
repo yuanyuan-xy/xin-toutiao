@@ -102,7 +102,6 @@ export default {
         item.id.toString(), item.comment_status
       ).then(res => {
         item.loading = false
-        console.log(res)
       })
     },
     handleSizeChange (val) {
@@ -111,7 +110,6 @@ export default {
     },
     // 页码改变
     handleCurrentChange (val) {
-      console.log(val)
       this.currentPage = val
       this.loadComment(this.currentPage)
     }

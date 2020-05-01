@@ -8,7 +8,7 @@
         </el-breadcrumb>
       </div>
       <!-- 主要内容 -->
-      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <el-tabs v-model="activeName" type="card">
         <el-tab-pane label="粉丝列表" name="fansList">
           <fans-list></fans-list>
         </el-tab-pane>
@@ -30,11 +30,6 @@ export default {
   data () {
     return {
       activeName: 'fansList'
-    }
-  },
-  methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
     }
   },
   components: {

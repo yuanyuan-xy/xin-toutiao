@@ -199,9 +199,6 @@ export default {
         this.totalCount = totalCount
       })
     },
-    onSubmit () {
-      console.log('yuan')
-    },
     getCurrent (page) {
       this.loadArticles(page)
     },
@@ -217,7 +214,6 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        console.log(delId)
         delArticle(delId.toString()).then(res => {
           // 删除成功后跳转到当前页码
           this.loadArticles(this.page)

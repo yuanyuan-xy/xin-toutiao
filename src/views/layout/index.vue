@@ -64,9 +64,6 @@ export default {
       getUserProfile().then(res => {
         // TODO:成功
         this.user = res.data.data
-      }).catch(err => {
-        // TODO:失败
-        console.log(err)
       })
     },
     onLogout () {

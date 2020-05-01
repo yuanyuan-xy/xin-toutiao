@@ -77,7 +77,6 @@ export default {
       // 发送请求
       userLogin(this.user).then(res => {
         // TODO:这里是登录成功的处理程序
-        console.log(res)
         // 提示登陆成功
         this.$message({
           message: '登陆成功',
@@ -92,9 +91,8 @@ export default {
 
         // 如果登陆成功就跳转到主页
         this.$router.push('/')
-      }).catch(err => {
+      }).catch(() => {
         // TODO:这里是失败的处理程序
-        console.log('报错了', err)
 
         // 提示登录失败
         this.$message.error('登陆失败,账号或密码错误')
