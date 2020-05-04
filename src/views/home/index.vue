@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <img src="./word.png" alt="">
+    <p>窗前我明月光</p>
   </div>
 </template>
 
