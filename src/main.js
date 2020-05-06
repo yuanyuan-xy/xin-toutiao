@@ -6,7 +6,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 
 // 导入element的css样式
-import 'element-ui/lib/theme-chalk/index.css'
+// import 'element-ui/lib/theme-chalk/index.css'
 
 // 引入富文本插件
 import { ElementTiptapPlugin } from 'element-tiptap'

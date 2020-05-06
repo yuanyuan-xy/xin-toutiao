@@ -92,7 +92,7 @@
 // 导入全局事件通信
 import globalBus from '@/utils/global-bus'
 // 导入裁剪图片的插件
-import 'cropperjs/dist/cropper.css'
+// import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
 // 导入跟新头像的接口
 import { getUserProfile, updatePhoto, updateUserInfo } from '@/api/user'
