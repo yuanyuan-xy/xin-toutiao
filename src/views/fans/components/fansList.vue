@@ -52,16 +52,15 @@ export default {
     this.onFans(1)
   },
   methods: {
-    onFans (page) {
+    async onFans (page) {
       this.maskShow = true
-      getFans({
+      const res = await getFans({
         page,
         per_page: this.pageSize
-      }).then(res => {
-        this.maskShow = false
-        this.fans = res.data.data.results
-        this.totalCount = res.data.data.total_count
       })
+      this.maskShow = false
+      this.fans = res.data.data.results
+      this.totalCount = res.data.data.total_count
     },
     handleSizeChange (val) {
       this.currentPage = 1

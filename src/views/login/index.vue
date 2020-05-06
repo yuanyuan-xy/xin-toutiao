@@ -71,11 +71,12 @@ export default {
         this.onLogin()
       })
     },
-    onLogin () {
+    async onLogin () {
       // 点击就打开loading
       this.loginLoad = true
       // 发送请求
-      userLogin(this.user).then(res => {
+      try {
+        const res = await userLogin(this.user)
         // TODO:这里是登录成功的处理程序
         // 提示登陆成功
         this.$message({
@@ -91,7 +92,7 @@ export default {
 
         // 如果登陆成功就跳转到主页
         this.$router.push('/')
-      }).catch(() => {
+      } catch {
         // TODO:这里是失败的处理程序
 
         // 提示登录失败
@@ -99,7 +100,7 @@ export default {
 
         // 关闭loading
         this.loginLoad = false
-      })
+      }
     }
   }
 }

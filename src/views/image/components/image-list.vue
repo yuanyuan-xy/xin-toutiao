@@ -161,21 +161,20 @@ export default {
     this.loadImages(false)
   },
   methods: {
-    loadImages (collect = false) {
+    async loadImages (collect = false) {
       this.isLoading = true
-      getImages({
+      const res = await getImages({
         collect,
         page: this.page,
         per_page: this.pageSize
-      }).then(res => {
-        const results = res.data.data.results
-        results.forEach(item => {
-          item.loading = false
-        })
-        this.isLoading = false
-        this.total = res.data.data.total_count
-        this.images = results
       })
+      const results = res.data.data.results
+      results.forEach(item => {
+        item.loading = false
+      })
+      this.isLoading = false
+      this.total = res.data.data.total_count
+      this.images = results
     },
     onCollectChange (value) {
       this.page = 1
@@ -220,22 +219,21 @@ export default {
       this.loadImages(this.collect)
     },
     // 收藏与取消收藏资源
-    onStarImage (item) {
+    async onStarImage (item) {
       item.loading = true
-      starImages(
+      await starImages(
         item.id,
         !item.is_collected
-      ).then(res => {
-        item.loading = false
-        // if (this.collect) {
-        //   this.collect = true
-        //   this.loadImages(true)
-        // } else {
-        //   this.collect = false
-        //   this.loadImages(false)
-        // }
-        this.loadImages(this.collect)
-      })
+      )
+      item.loading = false
+      // if (this.collect) {
+      //   this.collect = true
+      //   this.loadImages(true)
+      // } else {
+      //   this.collect = false
+      //   this.loadImages(false)
+      // }
+      this.loadImages(this.collect)
     }
   }
 }

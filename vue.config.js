@@ -3,9 +3,7 @@ module.exports = {
     externals: {
       vue: 'Vue',
       'element-ui': 'ELEMENT',
-      echarts: 'echarts',
-      'element-tiptap': 'tiptap',
-      cropperjs: 'cropper'
+      echarts: 'echarts'
     }
   }
 }

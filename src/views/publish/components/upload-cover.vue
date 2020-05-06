@@ -69,7 +69,7 @@ export default {
       const blob = window.URL.createObjectURL(file.files[0])
       this.$refs['preview-image'].src = blob
     },
-    onCoverConfirm () {
+    async onCoverConfirm () {
       if (this.activeName === 'second') {
         const file = this.$refs.file.files[0]
         if (!file) {
@@ -78,12 +78,11 @@ export default {
         }
         const fd = new FormData()
         fd.append('image', file)
-        uploadImage(fd).then(res => {
-          // 关闭弹出层
-          this.dialogVisible = false
-          // 将图片地址发送给父组件
-          this.$emit('input', res.data.data.url)
-        })
+        const res = await uploadImage(fd)
+        // 关闭弹出层
+        this.dialogVisible = false
+        // 将图片地址发送给父组件
+        this.$emit('input', res.data.data.url)
       } else if (this.activeName === 'first') {
         const imageList = this.$refs['image-list']
         const selected = imageList.selected

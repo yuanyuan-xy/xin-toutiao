@@ -92,7 +92,7 @@
 // 导入全局事件通信
 import globalBus from '@/utils/global-bus'
 // 导入裁剪图片的插件
-// import 'cropperjs/dist/cropper.css'
+import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
 // 导入跟新头像的接口
 import { getUserProfile, updatePhoto, updateUserInfo } from '@/api/user'
@@ -145,10 +145,9 @@ export default {
       // 避免连续选择同一张图片不触发
       file.value = ''
     },
-    uploadUser () {
-      getUserProfile().then(res => {
-        this.user = res.data.data
-      })
+    async uploadUser () {
+      const res = await getUserProfile()
+      this.user = res.data.data
     },
     omImageOpend () {
       const image = this.$refs.image
@@ -167,33 +166,38 @@ export default {
         // crop (event) {}
       })
     },
-    updateUserPhoto () {
-      this.photoLoading = true
-      this.cropper.getCroppedCanvas().toBlob(file => {
-        const fd = new FormData()
-        fd.append('photo', file)
-        updatePhoto(fd).then(res => {
-          this.photoLoading = false
-          this.dialogVisible = false
-          this.user.photo = window.URL.createObjectURL(file)
-          // 组件间传值,通过发起事件通信
-          globalBus.$emit('user-info', this.user)
+    // 将cropper.getCroppedCanvas()封装为promise方法
+    getCroppedCanvas () {
+      return new Promise((resolve, reject) => {
+        this.cropper.getCroppedCanvas().toBlob(file => {
+          resolve(file)
         })
       })
     },
+    async updateUserPhoto () {
+      this.photoLoading = true
+      const file = await this.getCroppedCanvas()
+      const fd = new FormData()
+      fd.append('photo', file)
+      await updatePhoto(fd)
+      this.photoLoading = false
+      this.dialogVisible = false
+      this.user.photo = window.URL.createObjectURL(file)
+      // 组件间传值,通过发起事件通信
+      globalBus.$emit('user-info', this.user)
+    },
     onUpdateUserInfo () {
-      this.$refs['settings-form'].validate((valid) => {
+      this.$refs['settings-form'].validate(async valid => {
         if (valid) {
           this.userInfoLoading = true
           const { name, intro, email } = this.user
-          updateUserInfo({ name, intro, email }).then(res => {
-            // 组件间传值,通过发起事件通信
-            globalBus.$emit('user-info', this.user)
-            this.userInfoLoading = false
-            this.$message({
-              message: '修改成功',
-              type: 'success'
-            })
+          await updateUserInfo({ name, intro, email })
+          // 组件间传值,通过发起事件通信
+          globalBus.$emit('user-info', this.user)
+          this.userInfoLoading = false
+          this.$message({
+            message: '修改成功',
+            type: 'success'
           })
         }
       })

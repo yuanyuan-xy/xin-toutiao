@@ -181,31 +181,29 @@ export default {
     this.loadArticleChannels()
   },
   methods: {
-    loadArticles (page = 1) { // 得到文章数据
+    async loadArticles (page = 1) { // 得到文章数据
       // 展示加载中
       this.loading = true
-      getArticles({
+      const res = await getArticles({
         page,
         per_page: this.pageSize,
         status: this.status,
         channel_id: this.channelsId,
         begin_pubdate: this.pubDate ? this.pubDate[0] : null,
         end_pubdate: this.pubDate ? this.pubDate[1] : null
-      }).then(res => {
-        // 取消加载中
-        this.loading = false
-        const { total_count: totalCount, results } = res.data.data
-        this.articles = results
-        this.totalCount = totalCount
       })
+      // 取消加载中
+      this.loading = false
+      const { total_count: totalCount, results } = res.data.data
+      this.articles = results
+      this.totalCount = totalCount
     },
     getCurrent (page) {
       this.loadArticles(page)
     },
-    loadArticleChannels () {
-      getArticleChannels().then(res => {
-        this.channelList = res.data.data.channels
-      })
+    async loadArticleChannels () {
+      const res = await getArticleChannels()
+      this.channelList = res.data.data.channels
     },
     // 删除
     delArticle (delId) {
@@ -213,11 +211,10 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        delArticle(delId.toString()).then(res => {
-          // 删除成功后跳转到当前页码
-          this.loadArticles(this.page)
-        })
+      }).then(async () => {
+        await delArticle(delId.toString())
+        // 删除成功后跳转到当前页码
+        this.loadArticles(this.page)
       }).catch(() => {
         this.$message({
           type: 'info',

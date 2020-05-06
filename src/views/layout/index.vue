@@ -60,11 +60,10 @@ export default {
     })
   },
   methods: {
-    getProfile () {
-      getUserProfile().then(res => {
-        // TODO:成功
-        this.user = res.data.data
-      })
+    async getProfile () {
+      const res = await getUserProfile()
+      // TODO:成功
+      this.user = res.data.data
     },
     onLogout () {
       this.$confirm('确定退出?', '提示', {

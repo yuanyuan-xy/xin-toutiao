@@ -76,33 +76,31 @@ export default {
   },
   methods: {
     // 获取评论列表
-    loadComment (page) {
+    async loadComment (page) {
       this.paginationDisabled = true
       this.isLoading = true
       this.currentPage = page
-      getArticles({
+      const res = await getArticles({
         response_type: 'comment',
         page,
         per_page: this.pageSize
-      }).then(res => {
-        this.paginationDisabled = false
-        this.isLoading = false
-        const results = res.data.data.results
-        results.forEach(item => {
-          item.loading = false
-        })
-        this.comments = results
-        this.totalCount = res.data.data.total_count
       })
-    },
-    // 改变评论状态
-    changeCommentStatus (item) {
-      item.loading = true
-      editCommentStatus(
-        item.id.toString(), item.comment_status
-      ).then(res => {
+      this.paginationDisabled = false
+      this.isLoading = false
+      const results = res.data.data.results
+      results.forEach(item => {
         item.loading = false
       })
+      this.comments = results
+      this.totalCount = res.data.data.total_count
+    },
+    // 改变评论状态
+    async changeCommentStatus (item) {
+      item.loading = true
+      await editCommentStatus(
+        item.id.toString(), item.comment_status
+      )
+      item.loading = false
     },
     handleSizeChange (val) {
       this.pageSize = val

@@ -4,32 +4,34 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+// TODO: 路由懒加载
+
 // 导入登陆页面
-import Login from '@/views/login/index'
+const Login = () => import('@/views/login/index')
 
 // 导入框架页面
-import LayoutIndex from '@/views/layout/index'
+const LayoutIndex = () => import(/* webpackChunkName: "group-foo" */ '@/views/layout/index')
 
 // 导入首页
-import Home from '@/views/home/index'
+const Home = () => import(/* webpackChunkName: "group-foo" */ '@/views/home/index')
 
 // 导入文章列表页面
-import Article from '@/views/article/index'
+const Article = () => import(/* webpackChunkName: "group-foo" */ '@/views/article/index')
 
 // 导入发表文章页面
-import Publish from '@/views/publish/index'
+const Publish = () => import('@/views/publish/index')
 
 // 导入素材管理页面
-import Image from '@/views/image/index'
+const Image = () => import('@/views/image/index')
 
 // 导入评论管理页面
-import Comment from '@/views/comment/index'
+const Comment = () => import('@/views/comment/index')
 
 // 导入个人设置页面
-import Settings from '@/views/settings/index'
+const Settings = () => import('@/views/settings/index')
 
 // 导入粉丝页面
-import Fans from '@/views/fans/index'
+const Fans = () => import('@/views/fans/index')
 
 Vue.use(VueRouter)
 
